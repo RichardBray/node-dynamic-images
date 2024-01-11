@@ -26,7 +26,7 @@ async function main() {
     const generatedImage = await generateImage(user, daysToBirthday);
     const email = await transporter.sendMail({
       from: process.env.NODEMAILER_USER,
-      to: "rich.bray@orva.studio",
+      to: process.env.EMAIL_RECIPIENT,
       subject: `It's almost that time of year ${user.firstName}!!!`,
       text: `Hello ${user.firstName} time to treat yourself to a gift?`,
       html: `<h1>Hello ${user.firstName} time to treat yourself to a gift?</h1> ${generatedImage}`,
