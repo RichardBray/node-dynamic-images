@@ -5,7 +5,7 @@
     "lastName": "Kapoor",
     "dateOfBirth": "1990-05-15",
     "email": "ravi.kapoor@example.com",
-    "category": "hiking"
+    "interest": "hiking"
   },
   {
     "uuid": "5e6f7g8h",
@@ -13,7 +13,7 @@
     "lastName": "Tanaka",
     "dateOfBirth": "1985-11-30",
     "email": "sakura.tanaka@example.com",
-    "category": "painting"
+    "interest": "painting"
   },
   {
     "uuid": "9i0j1k2l",
@@ -21,7 +21,7 @@
     "lastName": "Garcia",
     "dateOfBirth": "1978-07-20",
     "email": "pablo.garcia@example.com",
-    "category": "cooking"
+    "interest": "cooking"
   },
   {
     "uuid": "3m4n5o6p",
@@ -29,6 +29,6 @@
     "lastName": "Kowalski",
     "dateOfBirth": "1995-03-10",
     "email": "anna.kowalski@example.com",
-    "category": "photography"
+    "interest": "photography"
   }
 ]

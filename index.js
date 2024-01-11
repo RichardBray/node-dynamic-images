@@ -53,7 +53,7 @@ function calculateDaysTillBirthday(user) {
 }
 
 async function generateImage(user, daysToBirthday) {
-  return await cloudinary.image(`email-${user.category}`, {
+  return await cloudinary.image(`email-${user.interest}`, {
     transformation: [
       { width: 800, height: 500, crop: 'fill', format: 'jpg' },
       {
