@@ -1,6 +1,5 @@
 import { v2 as cloudinary } from 'cloudinary';
 import nodemailer from 'nodemailer';
-import { differenceInDays, parseISO } from 'date-fns';
 import data from './data.json' assert { type: 'json' };
 
 cloudinary.config({
@@ -19,53 +18,47 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-async function main() {
-  try {
-    const user = getUserById("1a2b3c4d");
-    const daysToBirthday = calculateDaysTillBirthday(user);
-    const generatedImage = await generateImage(user, daysToBirthday);
-    const email = await transporter.sendMail({
-      from: process.env.NODEMAILER_USER,
-      to: process.env.EMAIL_RECIPIENT,
-      subject: `It's almost that time of year ${user.firstName}!!!`,
-      text: `Hello ${user.firstName} time to treat yourself to a gift?`,
-      html: `<h1>Hello ${user.firstName} time to treat yourself to a gift?</h1> ${generatedImage}`,
-    });
+const personalisedText = {
+  hiking: "Explore your world",
+  painting: "Explore your creativity",
+  cooking: "Explore your taste buds",
+  photography: "Explore your eye",
+};
 
-    console.log("Email response:", email.response);
+function main() {
+  return data.filter(user => user.uuid === "1a2b3c4d").map(async (user) => {
+    try {
+      const generatedImage = await cloudinary.image(`email-${user.interest}`, {
+        transformation: [
+          { width: 800, height: 500, crop: 'fill', format: 'jpg' },
+          {
+            overlay: {
+              font_family: 'Arial',
+              font_size: 40,
+              font_weight: 'bold',
+              text: personalisedText[user.interest],
+            }, color: "#fff"
+          },
+          { flags: "layer_apply", gravity: "north_east" },
+          { overlay: `email-overlay-${user.interest}` },
+          { width: 200, crop: 'scale' },
+          { flags: "layer_apply", gravity: "south_east", y: 20, border: "5px_solid_white" },
+        ]
+      });
 
-  } catch (error) {
-    console.log(error);
-  }
-}
+      const email = await transporter.sendMail({
+        from: process.env.NODEMAILER_USER,
+        to: process.env.EMAIL_RECIPIENT,
+        subject: personalisedText[user.interest],
+        html: `<h1>Hello ${user.firstName} we have something you might like</h1> <p>${generatedImage}</p><p>We know you like ${user.interest} so we thought you might like this</p>`,
+      });
 
-function getUserById(id) {
-  return data.find(user => user.uuid === id);
-}
-
-function calculateDaysTillBirthday(user) {
-  const today = new Date();
-  const userDate = parseISO(user.dateOfBirth);
-  const userBirthday = new Date(today.getFullYear(), userDate.getMonth(), userDate.getDate());
-  const daysToBirthday = differenceInDays(userBirthday, today);
-
-  return daysToBirthday;
-}
-
-async function generateImage(user, daysToBirthday) {
-  return await cloudinary.image(`email-${user.interest}`, {
-    transformation: [
-      { width: 800, height: 500, crop: 'fill', format: 'jpg' },
-      {
-        overlay: {
-          font_family: 'Arial',
-          font_size: 40,
-          font_weight: 'bold',
-          text: `Only ${daysToBirthday} days till your birthday!`,
-        }, color: "#fff"
-      }
-    ]
+      console.log("Email response:", email.response);
+    } catch (error) {
+      console.error(error);
+    }
   });
+
 }
 
-main();
+await Promise.all(main());

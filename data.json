@@ -3,7 +3,6 @@
     "uuid": "1a2b3c4d",
     "firstName": "Ravi",
     "lastName": "Kapoor",
-    "dateOfBirth": "1990-05-15",
     "email": "ravi.kapoor@example.com",
     "interest": "hiking"
   },
@@ -11,7 +10,6 @@
     "uuid": "5e6f7g8h",
     "firstName": "Sakura",
     "lastName": "Tanaka",
-    "dateOfBirth": "1985-11-30",
     "email": "sakura.tanaka@example.com",
     "interest": "painting"
   },
@@ -19,7 +17,6 @@
     "uuid": "9i0j1k2l",
     "firstName": "Pablo",
     "lastName": "Garcia",
-    "dateOfBirth": "1978-07-20",
     "email": "pablo.garcia@example.com",
     "interest": "cooking"
   },
@@ -27,7 +24,6 @@
     "uuid": "3m4n5o6p",
     "firstName": "Anna",
     "lastName": "Kowalski",
-    "dateOfBirth": "1995-03-10",
     "email": "anna.kowalski@example.com",
     "interest": "photography"
   }
