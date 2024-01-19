@@ -26,7 +26,7 @@ const personalisedText = {
 };
 
 function main() {
-  return data.filter(user => user.uuid === "1a2b3c4d").map(async (user) => {
+  return data.map(async (user) => {
     try {
       const generatedImage = await cloudinary.image(`email-${user.interest}`, {
         transformation: [
