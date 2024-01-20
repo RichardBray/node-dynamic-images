@@ -19,10 +19,10 @@ const transporter = nodemailer.createTransport({
 });
 
 const personalisedText = {
-  hiking: "Explore your world",
-  painting: "Explore your creativity",
-  cooking: "Explore your taste buds",
-  photography: "Explore your eye",
+  hiking: "New Boots\nJust for You",
+  painting: "Explore\nyour creativity",
+  cooking: "Explore\nyour taste buds",
+  photography: "Explore\nyour eye",
 };
 
 function main() {
@@ -30,19 +30,28 @@ function main() {
     try {
       const generatedImage = await cloudinary.image(`email-${user.interest}`, {
         transformation: [
-          { width: 800, height: 500, crop: 'fill', format: 'jpg' },
+          { width: 800, height: 500, crop: 'fill', format: 'jpg', radius: 10 },
           {
             overlay: {
               font_family: 'Arial',
-              font_size: 40,
+              font_size: 50,
               font_weight: 'bold',
               text: personalisedText[user.interest],
-            }, color: "#fff"
+            }, color: "#fff", background: "#00000030",
           },
-          { flags: "layer_apply", gravity: "north_east" },
+          { flags: "layer_apply", gravity: "north_east", y: 50, x: 115 },
           { overlay: `email-overlay-${user.interest}` },
-          { width: 200, crop: 'scale' },
-          { flags: "layer_apply", gravity: "south_east", y: 20, border: "5px_solid_white" },
+          { width: 315, height: 250, crop: 'scale' },
+          { flags: "layer_apply", gravity: "south_east", y: 80, x: 80, border: "5px_solid_white" },
+          {
+            overlay: {
+              font_family: 'Arial',
+              font_size: 30,
+              font_weight: 'bold',
+              text: `Shop ${user.interest}`.toUpperCase(),
+            }, color: "#fff", background: "black",
+          },
+          { flags: "layer_apply", gravity: "south_east", y: 20, x: 200, border: "5px_solid_black" },
         ]
       });
 
@@ -50,7 +59,7 @@ function main() {
         from: process.env.NODEMAILER_USER,
         to: process.env.EMAIL_RECIPIENT,
         subject: personalisedText[user.interest],
-        html: `<h1>Hello ${user.firstName} we have something you might like</h1> <p>${generatedImage}</p><p>We know you like ${user.interest} so we thought you might like this</p>`,
+        html: `<h1>Hello ${user.firstName} we have something you might like</h1> <a href="#">${generatedImage}</a><p>We know you like ${user.interest} so we thought you might like this</p>`,
       });
 
       console.log("Email response:", email.response);
