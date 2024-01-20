@@ -20,9 +20,9 @@ const transporter = nodemailer.createTransport({
 
 const personalisedText = {
   hiking: "New Boots\nJust for You",
-  painting: "Explore\nyour creativity",
-  cooking: "Explore\nyour taste buds",
-  photography: "Explore\nyour eye",
+  painting: "New Brush\nJust for You",
+  cooking: "New Pans\nJust for You",
+  photography: "New Lense\nJust for You",
 };
 
 function main() {
@@ -41,14 +41,14 @@ function main() {
           },
           { flags: "layer_apply", gravity: "north_east", y: 50, x: 115 },
           { overlay: `email-overlay-${user.interest}` },
-          { width: 315, height: 250, crop: 'scale' },
+          { width: 315, height: 250, crop: 'fill' },
           { flags: "layer_apply", gravity: "south_east", y: 80, x: 80, border: "5px_solid_white" },
           {
             overlay: {
               font_family: 'Arial',
               font_size: 30,
               font_weight: 'bold',
-              text: `Shop ${user.interest}`.toUpperCase(),
+              text: 'VIEW STORE',
             }, color: "#fff", background: "black",
           },
           { flags: "layer_apply", gravity: "south_east", y: 20, x: 200, border: "5px_solid_black" },
